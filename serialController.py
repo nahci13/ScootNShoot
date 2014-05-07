@@ -72,6 +72,7 @@ def scan(newSignal): #scan to be used to find ideal location after being connect
 def unconnectedScan(scandata):
 	xpos = 20
 	ypos = 0
+	time.sleep(1)
         move(1,xpos)
         move(2,ypos)
 	time.sleep(1)
@@ -81,10 +82,23 @@ def unconnectedScan(scandata):
 		move(2,ypos)
 		time.sleep(.1)
 		scandata.scan()
+		print "scandone"
 	move(1,180)
+	time.sleep(.5)
+	move(0,0)
+	time.sleep(.5)
+	print "donemoving"
+	scandata.scan()
+	print "scandone"
+	move(2,0)
+	time.sleep(.5)
+	scandata.scan()
+	print "scandone"
 	time.sleep(1)
-	for ypos in xrange(180,0,-90):
-		move(2,ypos)
-		time.sleep(.1)
-		scandata.scan()	
-	time.sleep(1)
+#	for ypos in xrange(180,0,-90):
+#		move(2,ypos)
+#		time.sleep(.1)
+#		scandata.scan()	
+#		print "scandone"
+#		time.sleep(1)
+#	time.sleep(1)

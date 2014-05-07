@@ -10,7 +10,8 @@ class scanData():
 		self.sortedAccessPoints = []
 			
 	def scan(self):
-		r = envoy.run("sudo iwlist eth1 scan | egrep 'Quality|ESSID|Address'")
+		#r = envoy.run("sudo iwlist eth1 scan | egrep 'Quality|ESSID|Address'")
+		r = envoy.run("sudo iwlist wlan2 scan | egrep 'Quality|ESSID|Address'")
 		newstring = r.std_out
 		b = string.split(r.std_out,'Cell')
 		mac = ""
@@ -74,13 +75,15 @@ class scanData():
 			APs+=[[x,self.averages[x][0][0],self.averages[x][1]]]
 			count += 1
 		self.sortedAccessPoints = sorted(APs,key=getKey)
-		#for x in self.sortedAccessPoints:
-		#	print x
-
+		print "sorted access points:"
+		for x in self.sortedAccessPoints:
+			print x
+	
 
 def getKey(item):  #needed for the sorting function 
 	return item[2]
 
+"""
 a = scanData()
 for x in range(10):
 	a.scan()
@@ -89,3 +92,4 @@ print "number of scans performed "+str(a.scanNumber)
 a.averagedData()
 a.printAverages()
 a.sortConnections()
+"""

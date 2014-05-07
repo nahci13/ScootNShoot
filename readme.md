@@ -19,3 +19,4 @@ The application runs as follows:
 4)finds the direction of greatest signal strength after calculating a rolling average on sampled data
 5)orients antenna in most optimal direction
 
+The aruino code included was a modified version of ..... (fix this, credit source)

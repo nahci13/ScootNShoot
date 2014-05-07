@@ -8,10 +8,12 @@ from unconnected import *
 import serialController
 
 def main():
-#	unconnectedSignal = scanData()
-	#serialController.unconnectedScan(unconnectedSignal)
-	#unconnectedSignal.printAverages()
-
+	unconnectedSignal = scanData()
+	serialController.unconnectedScan(unconnectedSignal)
+	unconnectedSignal.averagedData()
+	unconnectedSignal.printAverages()
+	unconnectedSignal.sortConnections()
+	
 	signal = signalData(5,90)
 	serialController.scan(signal)
 	serialController.pause()
@@ -33,7 +35,7 @@ def main():
 		time.sleep(2)
 		serialController.move(2,180-(4*(o-45)))
 
-	time.sleep(1)
+	#time.sleep(1)
 
 	#o = signal.findBest()
 	#print "o orignal version"
