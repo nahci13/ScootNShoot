@@ -4,9 +4,14 @@ import serial
 import time
 import envoy
 from signalData import *
+from unconnected import *
 import serialController
 
 def main():
+#	unconnectedSignal = scanData()
+	#serialController.unconnectedScan(unconnectedSignal)
+	#unconnectedSignal.printAverages()
+
 	signal = signalData(5,90)
 	serialController.scan(signal)
 	serialController.pause()
@@ -14,8 +19,8 @@ def main():
 	print "regular averages:"
 	print signal.average
 	signal.movingAverage()
-	print "signal.serialController.movedAverage:"
-	print signal.serialController.movedAverage
+	print "signal.movedAverage:"
+	print signal.movedAverage
 	o = signal.findBestMoved()
 	print "o (location) best serialController.moved:"
 	print o
@@ -29,6 +34,7 @@ def main():
 		serialController.move(2,180-(4*(o-45)))
 
 	time.sleep(1)
+
 	#o = signal.findBest()
 	#print "o orignal version"
 	#print o

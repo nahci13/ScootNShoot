@@ -1,8 +1,12 @@
 import serial
 import envoy
 import time
+import pythonServoController
+from signalData import *
+from unconnected import *
 
 usbport = '/dev/ttyACM0'
+#usbport = '/dev/ttyACM1'
 serFound = True
     
         
@@ -38,10 +42,10 @@ def move(servo, angle):
 def pause(): #sends arbitrary data for the arduino to read to make it reset
 	move(6,50)
 
-def scan(newSignal):
-    #signal = signalData(20,90)
+#takes in signalData class for input
+def scan(newSignal): #scan to be used to find ideal location after being connected to the network
     running = True
-    while (running):
+    while (running): #get rid of this useless while loop?
         xpos =20 
         ypos = 0
 	time.sleep(1)
@@ -61,7 +65,26 @@ def scan(newSignal):
         
             move(2,ypos)
             time.sleep(0.1)
-            newSignal.getData(signal.size2- (ypos/4))
+            newSignal.getData(newSignal.size2- (ypos/4))
         time.sleep(1)
 	running = False
 
+def unconnectedScan(scandata):
+	xpos = 20
+	ypos = 0
+        move(1,xpos)
+        move(2,ypos)
+	time.sleep(1)
+	move(1,xpos)
+	time.sleep(1)
+	for ypos in xrange(0,180,90):
+		move(2,ypos)
+		time.sleep(.1)
+		scandata.scan()
+	move(1,180)
+	time.sleep(1)
+	for ypos in xrange(180,0,-90):
+		move(2,ypos)
+		time.sleep(.1)
+		scandata.scan()	
+	time.sleep(1)
