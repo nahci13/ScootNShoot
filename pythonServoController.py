@@ -8,23 +8,23 @@ from signalData import *
 from unconnected import *
 import serialController
 
-serialString = ""
 interface =""
 serFound = False
-ser = serial.Serial()
+#ser = serial.Serial()
 
 def main():
+	global serialString
 	#First parse arugments
 	if (len(sys.argv)==3):
-		serial = str(sys.argv[1])
+		serialString = str(sys.argv[1])
 		interface = str(sys.argv[2])
 		return
 	elif (len(sys.argv)==2):
 		if sys.argv[1] == str(1):
-			serial = "/dev/ttyACM0"
+			serialString = "/dev/ttyACM0"
 			interface = "wlan2"
 		elif sys.argv[1] == str(2):
-			serial = "/dev/ttyACM1"
+			serialString = "/dev/ttyACM1"
 			interface = "wlan4"
 		else:
 			print "Improper arguments. Try again"
@@ -32,6 +32,15 @@ def main():
 	else:
 		print "Wrong number of args. Try again."
 		return
+
+	print "serialString is "+serialString
+	try:
+		global ser
+		#ser.port=serial
+		ser = serial.Serial(serialString,9600,timeout=1)
+		serFound = True
+	except:
+		print "failed to aquire serial!"
 
 	print "in main2"
 	print serial
@@ -79,10 +88,4 @@ def main():
 	print "done"
 		    
 if __name__  == '__main__':
-	try:
-		global ser
-		ser = serial.Serial(sys.argv[1],9600,timeout=1)
-		serFound = True
-	except:
-		print "failed to aquire serial!"
 	main()

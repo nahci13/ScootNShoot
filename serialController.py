@@ -23,6 +23,8 @@ from unconnected import *
 #	serFound = False
 
 def move(servo, angle):
+	print "port"
+	print pythonServoController.ser.port
 	if (pythonServoController.serFound):
 		'''Moves the specified servo to the supplied angle.
 
