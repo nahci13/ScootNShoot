@@ -6,7 +6,7 @@ Scoot-N-Shoot is an open-surfing WiFi project that focuses on finding and tracki
 In this repository you will find the code responsible for signal tracking. Materials needed include:
 
 Yagi antenna  
-two servos  
+&nbsp;two servos  
 tripod  
 two servos  
 Alpha usb dongle  
