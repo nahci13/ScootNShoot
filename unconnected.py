@@ -87,7 +87,7 @@ def getKey(item):  #needed for the sorting function
 	return item[2]
 
 def main():
-	a = scanData()
+	a = scanData(sys.argv[1])
 	for x in range(10):
 		a.scan()
 	a.printData()
