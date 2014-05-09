@@ -3,20 +3,61 @@
 import serial
 import time
 import envoy
+import sys
 from signalData import *
 from unconnected import *
 import serialController
 
+serialString = ""
+interface =""
+exit = True
+serFound = True
+try:
+	ser = serial.Serial(sys.argv[1],9600,timeout=1)
+except:
+	print "failed to aquire serial!"
+	serFound = False
+
 def main():
-	unconnectedSignal = scanData()
+	#First parse arugments
+	interface=""
+	exit = True
+	if (len(sys.argv)==3):
+		serial = str(sys.argv[1])
+		interface = str(sys.argv[2])
+		exit = False
+	elif (len(sys.argv)==2):
+		if sys.argv[1] == str(1):
+			serial = "/dev/ttyACM0"
+			interface = "wlan2"
+			exit = False
+		elif sys.argv[1] == str(2):
+			serial = "/dev/ttyACM1"
+			interface = "wlan4"
+			exit = False
+		else:
+			print "Improper arguments. Try again"
+			return
+	else:
+		print "Wrong number of args. Try again."
+		return
+	print serial
+	print interface
+	return serial,interface,exit
+
+def main2():
+	print "in main2"
+	print serial
+	print interface
+	unconnectedSignal = scanData(interface)
 	serialController.unconnectedScan(unconnectedSignal)
 	unconnectedSignal.averagedData()
 	unconnectedSignal.printAverages()
 	unconnectedSignal.sortConnections()
 	
-	signal = signalData(5,90)
+	signal = signalData(5,90,interface)
 	serialController.scan(signal)
-	serialController.pause()
+	#serialController.pause()
 	signal.averager()
 	print "regular averages:"
 	print signal.average
@@ -51,8 +92,15 @@ def main():
 	print "done"
 		    
 if __name__  == '__main__':
-	main()		
+	data = main()
+	exit = data[2]
+	if (exit==False):
+		serialString = data[0]
+		interface = data[1] 
+		print "after main"
+		print serialString
+		print interface
+		main2()
 	    
 		
-	    
 

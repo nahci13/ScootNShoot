@@ -1,11 +1,13 @@
 import serial
+import sys
 import time
 import envoy
 
 class signalData:
-	def __init__(self,size1,size2): # i.e signalData(20,90)
+	def __init__(self,size1,size2,interface): # i.e signalData(20,90)
 		self.size1 = size1
 		self.size2 = size2
+		self.interface = interface
 		self.data=[[0 for x in xrange(size1)] for x in xrange(size2)]
 		self.average=[0 for x in xrange(size2)]        
 		self.movedAverage=[0 for x in xrange(size2)]
@@ -13,7 +15,7 @@ class signalData:
 
 	def getData(self,location):
 		for i in range(0,self.size1):
-			self.data[location][i] = getSignal()
+			self.data[location][i] = getSignal(self.interface)
 
 	def averager(self):
 		for i in range(0,self.size2):
@@ -82,8 +84,10 @@ class signalData:
 			index +=1
 
 
-def getSignal():
-	r = envoy.run("iwconfig wlan2 | grep -Eo '(-[0-9]{1,3})'")
+def getSignal(interface):
+	first = "iwconfig "
+	last = " | grep -Eo '(-[0-9]{1,3})'"
+	r = envoy.run(first+interface+last)
 	newstring = r.std_out.replace("-","")
 	try:
 		i = int(newstring)
