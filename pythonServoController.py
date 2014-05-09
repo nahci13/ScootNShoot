@@ -34,19 +34,19 @@ def main():
 	o = signal.findBestMoved()
 	print "o (location) best serialController.moved:"
 	print o
+	time.sleep(1)
+	ypos = 0
 	if (o < 45):
 		move(1,20)
-		time.sleep(2)
 		move(2,4*o)
 	else:
 		move(1,180)
-		time.sleep(2)
-		move(2,180-(4*(o-45)))
+		move(2,180-(4*(o-45))) 
 
 	print "Now scanning in the y direction"
 	time.sleep(1)
 	#Now start scanning in the Y direction
-	signalY = signalData(5,90,interface)
+	signalY = signalData(5,45,interface)
         yscan(signalY,o)
 	signalY.averager()
 	print "regular y averages:"
@@ -57,8 +57,11 @@ def main():
 	value = signalY.findBestMoved()
 	print "value (location) best serialController.moved:"
 	print value
-	
-        move(1,value)
+	time.sleep(1)
+        if (o < 45):
+		move(1,value*2)
+	else:
+		move(1,180-(2*(value)))
 
 	print "done"
 		    
@@ -122,16 +125,16 @@ def scan(newSignal): #scan to be used to find ideal location after being connect
 def yscan(newSignal, o): #the way it scans depends on the orientation of the servo
 	time.sleep(1)
 	if o<45:
-		for xpos in xrange(0,90,1):
+		for xpos in range(0,90,2):
 			move(1,xpos)
 			time.sleep(.1)
-			newSignal.getData(xpos)
+			newSignal.getData(xpos/2)
 		time.sleep(1)
 	else:
-		for xpos in xrange(89,-1,-1):
+		for xpos in range(178,88,-2):
 			move(1,xpos)
 			time.sleep(.1)
-			newSignal.getData(89-xpos)
+			newSignal.getData((178-xpos)/2)
 		time.sleep(1)
 
 def unconnectedScan(scandata):
