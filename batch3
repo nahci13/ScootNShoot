@@ -1,0 +1,13 @@
+#!/bin/bash
+#sudo xterm -hold "python pythonServoController.py /dev/ttyACM0 wlan2"
+#sudo xterm -hold "python pythonServoController.py /dev/ttyACM1 wlan4"
+
+#sudo gnome-terminal -x bash -c "python pythonServoController.py /dev/ttyACM0 wlan2 >> rig1"
+
+#sudo gnome-terminal -x bash -c "python pythonServoController.py /dev/ttyACM1 wlan4 >> rig2"
+
+
+gnome-terminal -x bash -c "python pythonServoController.py /dev/ttyACM0 wlan2"
+
+gnome-terminal -x bash -c "python pythonServoController.py /dev/ttyACM1 wlan4"
+
