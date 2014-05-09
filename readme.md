@@ -5,18 +5,18 @@ Scoot-N-Shoot is an open-surfing WiFi project that focuses on finding and tracki
 
 In this repository you will find the code responsible for signal tracking. Materials needed include:
 
-Yagi antenna  
-&nbsp;two servos  
-tripod  
-two servos  
-Alpha usb dongle  
-Arduino Uno   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Yagi antenna  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two servos  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tripod  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;two servos  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alpha usb dongle  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arduino Uno   
 
 The application runs as follows:  
-1)performs scans on all available wifi network  
-2)connects to strongest network  
-3)performs a 360 degree scan on current network, sampling signal strength as it goes  
-4)finds the direction of greatest signal strength after calculating a rolling average on sampled data  
-5)orients antenna in most optimal direction  
+&nbsp;&nbsp;&nbsp;1)performs scans on all available wifi network  
+&nbsp;&nbsp;&nbsp;2)connects to strongest network  
+&nbsp;&nbsp;&nbsp;3)performs a 360 degree scan on current network, sampling signal strength as it goes  
+&nbsp;&nbsp;&nbsp;4)finds the direction of greatest signal strength after calculating a rolling average on sampled data  
+&nbsp;&nbsp;&nbsp;5)orients antenna in most optimal direction  
 
 The aruino code included was a modified version of ..... (fix this, credit source)
