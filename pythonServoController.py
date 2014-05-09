@@ -12,11 +12,12 @@ serFound = False
 
 def main():
 
-	print "in main2"
 	print serial
 	print interface
-	unconnectedSignal = scanData(interface)
-	unconnectedScan(unconnectedSignal)
+	unconnectedSignal = scanData("eth1")
+	#unconnectedScan(unconnectedSignal)
+	for x in range(30):
+		unconnectedSignal.scan()
 	unconnectedSignal.averagedData()
 	unconnectedSignal.printAverages()
 	unconnectedSignal.sortConnections()
@@ -25,7 +26,7 @@ def main():
 	scan(signal)
 	#serialController.pause()
 	signal.averager()
-	print "regular averages:"
+	print "regular x averages:"
 	print signal.average
 	signal.movingAverage()
 	print "signal.movedAverage:"
@@ -42,19 +43,23 @@ def main():
 		time.sleep(2)
 		move(2,180-(4*(o-45)))
 
-	#time.sleep(1)
+	print "Now scanning in the y direction"
+	time.sleep(1)
+	#Now start scanning in the Y direction
+	signalY = signalData(5,90,interface)
+        yscan(signalY,o)
+	signalY.averager()
+	print "regular y averages:"
+	print signalY.average
+	signalY.movingAverage()
+	print "signalY.movedAverage:"
+	print signalY.movedAverage
+	value = signalY.findBestMoved()
+	print "value (location) best serialController.moved:"
+	print value
+	
+        move(1,value)
 
-	#o = signal.findBest()
-	#print "o orignal version"
-	#print o
-	#if (o < 45):
-	#	serialController.move(1,20)
-	#	time.sleep(2)
-	#	serialController.move(2,4*o)
-	#else:
-	#	serialController.move(1,180)
-	#	time.sleep(2)
-	#	serialController.move(2,180-(4*(o-45)))
 	print "done"
 		    
 
@@ -65,8 +70,6 @@ def main():
 
 
 def move(servo, angle):
-	print "port"
-	print ser.port
 	if (serFound):
 		'''Moves the specified servo to the supplied angle.
 
@@ -115,6 +118,22 @@ def scan(newSignal): #scan to be used to find ideal location after being connect
 	time.sleep(1)
 	running = False
 
+#scan the y direction after x has been found
+def yscan(newSignal, o): #the way it scans depends on the orientation of the servo
+	time.sleep(1)
+	if o<45:
+		for xpos in xrange(0,90,1):
+			move(1,xpos)
+			time.sleep(.1)
+			newSignal.getData(xpos)
+		time.sleep(1)
+	else:
+		for xpos in xrange(89,-1,-1):
+			move(1,xpos)
+			time.sleep(.1)
+			newSignal.getData(89-xpos)
+		time.sleep(1)
+
 def unconnectedScan(scandata):
 	xpos = 20
 	ypos = 0
@@ -141,13 +160,6 @@ def unconnectedScan(scandata):
 	scandata.scan()
 	print "scandone"
 	time.sleep(1)
-#	for ypos in xrange(180,0,-90):
-#		move(2,ypos)
-#		time.sleep(.1)
-#		scandata.scan()	
-#		print "scandone"
-#		time.sleep(1)
-#	time.sleep(1)
 
 if __name__  == '__main__':
 	interface =""
@@ -164,6 +176,12 @@ if __name__  == '__main__':
 		elif sys.argv[1] == str(2):
 			serialString = "/dev/ttyACM1"
 			interface = "wlan4"
+		elif sys.argv[1] == str(3):
+			serialString = "/dev/ttyACM0"
+			interface = "wlan4"
+		elif sys.argv[1] == str(4):
+			serialString = "/dev/ttyACM1"
+			interface = "wlan2"
 		else:
 			print "Improper arguments. Try again"
 	else:

@@ -88,12 +88,14 @@ def getKey(item):  #needed for the sorting function
 
 def main():
 	a = scanData(sys.argv[1])
-	for x in range(10):
+	for x in range(50):
 		a.scan()
 	a.printData()
 	print "number of scans performed "+str(a.scanNumber)
 	a.averagedData()
 	a.printAverages()
+	a.sortConnections()
+
 
 if __name__ == '__main__':
 	main()
