@@ -7,6 +7,7 @@ class scanData():
 	def __init__(self,interface):
 		self.data = dict()
 		self.averages = dict()
+		self.pairs = dict()
 		self.scanNumber = 0 #keeps track of how many scans have been logged
 		self.sortedAccessPoints = []
 		self.interface = interface
@@ -60,18 +61,18 @@ class scanData():
 			print x+str(self.averages[x])
 
 
-	def averagedData(self):
+	def averagedData(self): #averages the signal strength of each AP depending on how many scans were performed
 		total = 0
 		for x in self.data:
-			#print self.data[x]
-			print self.data[x][1]
+			print self.data[x]
+			#print self.data[x][1]
 			for y in self.data[x][1]:
 				total += y
 			total += (100*(self.scanNumber-len(self.data[x][1]))) #add in bad data for every scan that a signal was not found so that the average isn't artificially inflated
 			self.averages[x] = [self.data[x][0], total/self.scanNumber]
 			total = 0
 
-	def sortConnections(self):
+	def sortConnections(self): #sorts all found access points by average signal strength
 		APs = []
 		count = 0
 		for x in self.data:
@@ -82,19 +83,45 @@ class scanData():
 		for x in self.sortedAccessPoints:
 			print x
 	
+	def getDuplicates(self): #groups access points with the same SSID
+		findPairs = dict()
+		for x in self.averages:
+			print self.averages[x][0][0]
+			ssid = self.averages[x][0][0]
+			if ssid in findPairs:
+				print "x already here" + str(x)
+				print findPairs[ssid]
+				findPairs[ssid][0].append(str(x))
+				findPairs[ssid][1].append(self.averages[x][1])
+			else:
+				findPairs[self.averages[x][0][0]]=[[x],[self.averages[x][1]]]
+				
+		for x in findPairs:
+			print str(x) + " " +str(findPairs[x])
+			if len(findPairs[x][0])>1:
+				self.pairs[x]=findPairs[x]
+
+		print "pairs"
+		for x in self.pairs:
+			print str(x) + " " + str(self.pairs[x])
+
+	#def getBestPair(self):
+		#for x in self.pairs
 
 def getKey(item):  #needed for the sorting function 
 	return item[2]
 
 def main():
 	a = scanData(sys.argv[1])
-	for x in range(50):
+	for x in range(5):
 		a.scan()
 	a.printData()
 	print "number of scans performed "+str(a.scanNumber)
 	a.averagedData()
 	a.printAverages()
 	a.sortConnections()
+	print "duplicates"
+	a.getDuplicates()
 
 
 if __name__ == '__main__':
