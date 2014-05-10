@@ -86,11 +86,11 @@ class scanData():
 	def getDuplicates(self): #groups access points with the same SSID
 		findPairs = dict()
 		for x in self.averages:
-			print self.averages[x][0][0]
+			#print self.averages[x][0][0]
 			ssid = self.averages[x][0][0]
 			if ssid in findPairs:
-				print "x already here" + str(x)
-				print findPairs[ssid]
+				#print "x already here" + str(x)
+				#print findPairs[ssid]
 				findPairs[ssid][0].append(str(x))
 				findPairs[ssid][1].append(self.averages[x][1])
 			else:
@@ -108,8 +108,39 @@ class scanData():
 	#def getBestPair(self):
 		#for x in self.pairs
 
+	def bestUD(self): #returns an array with the mac addresses of the two UD access points with with the best signal
+		result = []
+		value1=100
+		value2=100
+		best1=0
+		best2=0
+		a=[]
+		if ("UDel" in self.pairs):
+			a = self.pairs["UDel"]
+			print "yes, its there"	
+			db = a[1]
+			index = 0
+			for x in db:
+				if x < value1:
+					best2=best1 #pass previous best down
+					value2=value1
+					value1=x
+				        best1=index
+				elif x<value2:
+					value2=x
+					best2=index
+				index+=1	
+			result.append(a[0][best1])
+			result.append(a[0][best2])
+		return result
+
 def getKey(item):  #needed for the sorting function 
 	return item[2]
+
+#antenna should probably be either 1 or 2
+def connect(interface,BSSID,antenna):
+	call("nmcli "+"c "+"up "+"iface " +interface+" id "+"UDel\ "+antenna+" "+"ap "+BSSID,shell = True)
+	return
 
 def main():
 	a = scanData(sys.argv[1])
@@ -120,8 +151,12 @@ def main():
 	a.averagedData()
 	a.printAverages()
 	a.sortConnections()
-	print "duplicates"
+	#print "duplicates"
+	#print a.pairs
 	a.getDuplicates()
+	macs= a.bestUD()
+	print macs
+				  		
 
 
 if __name__ == '__main__':
