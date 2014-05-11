@@ -34,7 +34,7 @@ def main():
 	else:	
 		print "finding best UD signals failed"
 	time.sleep(3)  #definitely can probably adjust this
-		    
+	return bssids		    
 #used to be in serialController:
 
 
@@ -174,10 +174,16 @@ if __name__  == '__main__':
 	except:
 		print "failed to aquire serial!"
 	if (serFound):
-                main()
+                bssids=main()
+		if interface == "wlan2":
+			a = bssids[0]
+			b = bssids[1]
+		else:
+			a = bssids[1]
+			b = bssids[0]
                 ser.close()
-                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serialString,interface,'1'])
-                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serial2,interface2,'2'])
+                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serialString,interface,'1',a])
+                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serial2,interface2,'2',b])
 
 #       filename = 'test1.log'
 #       with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
