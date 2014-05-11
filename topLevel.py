@@ -6,7 +6,7 @@ import envoy
 import sys
 from signalData import *
 from unconnected import *
-
+import subprocess
 
 serFound = False
 
@@ -21,10 +21,11 @@ def main():
 	print "Data before being averaged"
 	unconnectedSignal.averagedData()
 	unconnectedSignal.sortConnections()
-	bssids = unconnectedSign.bestUD()
+	unconnectedSignal.getDuplicates()
+	bssids = unconnectedSignal.bestSignals("UDel")
 	if len(bssids) == 2:
-		call("nmcli "+"c "+"up "+"iface " +"wlan2"+" id "+"UDel\ 1 "+"ap "+bssids[0],shell = True)
-		call("nmcli "+"c "+"up "+"iface " +"wlan4"+" id "+"UDel\ 2 "+"ap "+bssids[1],shell = True)
+		subprocess.call("nmcli "+"c "+"up "+"iface " +"wlan2"+" id "+"UDel\ 2 "+"ap "+bssids[0],shell = True)
+		subprocess.call("nmcli "+"c "+"up "+"iface " +"wlan4"+" id "+"UDel\ 1 "+"ap "+bssids[1],shell = True)
 	else:	
 		print "finding best UD signals failed"
 	time.sleep(5)  #definitely can probably adjust this
