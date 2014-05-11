@@ -156,8 +156,6 @@ def main():
 	a.getDuplicates()
 	macs= a.bestUD()
 	print macs
-				  		
-
 
 if __name__ == '__main__':
 	main()

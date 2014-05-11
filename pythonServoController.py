@@ -18,8 +18,8 @@ def main():
 	#unconnectedScan(unconnectedSignal)
 	for x in range(30):
 		unconnectedSignal.scan()
+	print "Data before being averaged"
 	unconnectedSignal.averagedData()
-	unconnectedSignal.printAverages()
 	unconnectedSignal.sortConnections()
 	
 	signal = signalData(5,90,interface)
