@@ -22,6 +22,12 @@ def main():
 	unconnectedSignal.averagedData()
 	unconnectedSignal.sortConnections()
 	bssids = unconnectedSign.bestUD()
+	if len(bssids) == 2:
+		call("nmcli "+"c "+"up "+"iface " +"wlan2"+" id "+"UDel\ 1 "+"ap "+bssids[0],shell = True)
+		call("nmcli "+"c "+"up "+"iface " +"wlan4"+" id "+"UDel\ 2 "+"ap "+bssids[1],shell = True)
+	else:	
+		print "finding best UD signals failed"
+	time.sleep(5)  #definitely can probably adjust this
 		    
 #used to be in serialController:
 
