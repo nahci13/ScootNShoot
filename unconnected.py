@@ -117,7 +117,7 @@ class scanData():
 		a=[]
 		if (ssid in self.pairs):
 			a = self.pairs[ssid]
-			print "yes, its there"	
+			#print "yes, its there"	
 			db = a[1]
 			index = 0
 			for x in db:
