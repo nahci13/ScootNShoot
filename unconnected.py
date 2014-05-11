@@ -108,15 +108,15 @@ class scanData():
 	#def getBestPair(self):
 		#for x in self.pairs
 
-	def bestUD(self): #returns an array with the mac addresses of the two UD access points with with the best signal
+	def bestSignals(self,ssid): #returns an array with the mac addresses of the two UD access points with with the best signal
 		result = []
 		value1=100
 		value2=100
 		best1=0
 		best2=0
 		a=[]
-		if ("UDel" in self.pairs):
-			a = self.pairs["UDel"]
+		if (ssid in self.pairs):
+			a = self.pairs[ssid]
 			print "yes, its there"	
 			db = a[1]
 			index = 0
@@ -154,7 +154,7 @@ def main():
 	#print "duplicates"
 	#print a.pairs
 	a.getDuplicates()
-	macs= a.bestUD()
+	macs= a.bestSignals("UDel Help")
 	print macs
 
 if __name__ == '__main__':
