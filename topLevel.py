@@ -2,6 +2,7 @@
 
 import serial
 import time
+import io
 import envoy
 import sys
 from signalData import *
@@ -9,6 +10,8 @@ from unconnected import *
 import subprocess
 
 serFound = False
+f1 = open("antennaData1","w")
+f2 = open("antennaData2","w")
 
 def main():
 
@@ -26,9 +29,11 @@ def main():
 	if len(bssids) == 2:
 		subprocess.call("nmcli "+"c "+"up "+"iface " +"wlan2"+" id "+"UDel\ 2 "+"ap "+bssids[0],shell = True)
 		subprocess.call("nmcli "+"c "+"up "+"iface " +"wlan4"+" id "+"UDel\ 1 "+"ap "+bssids[1],shell = True)
+		f1.write("UDel "+bssids[0])
+		f2.write("UDel "+bssids[1])
 	else:	
 		print "finding best UD signals failed"
-	time.sleep(5)  #definitely can probably adjust this
+	time.sleep(3)  #definitely can probably adjust this
 		    
 #used to be in serialController:
 
@@ -171,6 +176,24 @@ if __name__  == '__main__':
 	if (serFound):
 		main()
 		ser.close()
-	        subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serialString,interface])	
-	        subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serial2,interface2])	
+	        #subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serialString,interface])	
+	        #subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serial2,interface2])	
+
+	filename = 'test1.log'
+	with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+	    process = subprocess.Popen(["python", 'sweep.py',serialString,interface], stdout=writer)
+	    while process.poll() is None:
+		f1.write(reader.read())
+		time.sleep(0.5)
+	    # Read the remaining
+	    f1.write(reader.read())
+
+	filename2 = 'test2.log'
+	with io.open(filename2, 'wb') as writer, io.open(filename2, 'rb', 1) as reader:
+	    process = subprocess.Popen(["python", 'sweep.py',serial2,interface2], stdout=writer)
+	    while process.poll() is None:
+		f2.write(reader.read())
+		time.sleep(0.5)
+	    # Read the remaining
+	    f2.write(reader.read())
 		
