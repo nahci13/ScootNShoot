@@ -174,26 +174,26 @@ if __name__  == '__main__':
 	except:
 		print "failed to aquire serial!"
 	if (serFound):
-		main()
-		ser.close()
-	        #subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serialString,interface])	
-	        #subprocess.call(['gnome-terminal', '-x', 'python', 'sweep.py',serial2,interface2])	
+                main()
+                ser.close()
+                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serialString,interface,'1'])
+                subprocess.call(['gnome-terminal', '-x', 'python', 'redirect.py',serial2,interface2,'2'])
 
-	filename = 'test1.log'
-	with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
-	    process = subprocess.Popen(["python", 'sweep.py',serialString,interface], stdout=writer)
-	    while process.poll() is None:
-		f1.write(reader.read())
-		time.sleep(0.5)
-	    # Read the remaining
-	    f1.write(reader.read())
-
-	filename2 = 'test2.log'
-	with io.open(filename2, 'wb') as writer, io.open(filename2, 'rb', 1) as reader:
-	    process = subprocess.Popen(["python", 'sweep.py',serial2,interface2], stdout=writer)
-	    while process.poll() is None:
-		f2.write(reader.read())
-		time.sleep(0.5)
-	    # Read the remaining
-	    f2.write(reader.read())
-		
+#       filename = 'test1.log'
+#       with io.open(filename, 'wb') as writer, io.open(filename, 'rb', 1) as reader:
+#           process = subprocess.Popen(["python", 'sweep.py',serialString,interface], stdout=writer)
+#           while process.poll() is None:
+#               f1.write(reader.read())
+#               time.sleep(0.5)
+#           # Read the remaining
+#           f1.write(reader.read())
+#
+#       filename2 = 'test2.log'
+#       with io.open(filename2, 'wb') as writer, io.open(filename2, 'rb', 1) as reader:
+#           process = subprocess.Popen(["python", 'sweep.py',serial2,interface2], stdout=writer)
+#           while process.poll() is None:
+#               f2.write(reader.read())
+#               time.sleep(0.5)
+#           # Read the remaining
+#           f2.write(reader.read())
+	
